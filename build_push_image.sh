@@ -10,7 +10,7 @@ docker images
 docker tag item-app:v1 ghcr.io/rockyard/item-app:v1
 
 # login ke github packages
-$ echo $CR_PAT | docker login ghcr.io -u rockyard --password-stdin
+echo $CR_PAT | docker login ghcr.io -u rockyard --password-stdin
 
 # unggah image dari dockerfile ke github packages
 docker push ghcr.io/rockyard/item-app:v1

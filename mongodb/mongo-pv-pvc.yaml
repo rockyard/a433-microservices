@@ -1,18 +1,17 @@
-apiVersion: v1
-kind: PersistentVolume
+apiVersion: v1 # versi API kubernetes
+kind: PersistentVolume # jenis object kubernetss
 metadata: 
   labels: 
-    type: local
-    # app: mongodb
-    # tier: database
-  name: mongodb-pv
+    app: mongodb # label aplikasi 
+    tier: database # tier aplikasi
+  name: mongodb-pv # nama object pv kubernetes
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce # mode access pv 
   capacity:
-    storage: 2Gi 
+    storage: 2Gi # kapasitas untuk pv
   hostPath:
-    path: "/data/db"
+    path: "/data/db" # path untuk pv 
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -22,18 +21,18 @@ spec:
               values:
                 - minikube
   storageClassName: manual
-  # ---
-  # apiVersion: v1
-  # kind: PersistentVolumeClaim
-  # metadata:
-  #   labels: 
-  #     app: mongodb
-  #     tier: database
-  #   name: mongodb-pvc
-  # spec:
-  #   accessModes:
-  #     - ReadWriteOnce
-  #   resources:
-  #     requests:
-  #       storage: 2Gi
-  #   storageClassName: manual
+  ---
+  apiVersion: v1 # versi API kubernetes
+  kind: PersistentVolumeClaim # jenis object kubernetes
+  metadata:
+    labels: 
+      app: mongodb # label aplikasi 
+      tier: database # tier aplikasi 
+    name: mongodb-pvc # nama pv claim 
+  spec:
+    accessModes:
+      - ReadWriteOnce # mode access pv 
+    resources:
+      requests:
+        storage: 2Gi # kapasitas untuk pv
+    storageClassName: manual # kelas penyimpanan oleh pv

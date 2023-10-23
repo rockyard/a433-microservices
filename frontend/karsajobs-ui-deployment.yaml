@@ -1,34 +1,34 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1 # versi API kubernetes
+kind: Deployment # jenis object kubernetes
 metadata:
-  name: karsajobs-ui
+  name: karsajobs-ui # nama deployment
   labels:
-    app: karsajobs
-    tier: frontend
+    app: karsajobs # label aplikasi 
+    tier: frontend # tier aplikasi
 spec:
-  replicas: 1
+  replicas: 1 # jumlah replica 
   selector: 
     matchLabels:
-      app: karsajobs
-      tier: frontend
+      app: karsajobs # selector pod label
+      tier: frontend # selector pod tier
   template: 
     metadata:
       labels:
-        app: karsajobs
-        tier: frontend
+        app: karsajobs # label untuk template pod
+        tier: frontend # tier untuk template pod
     spec:
       containers:
-        - name: karsajobs-ui
-          image: ghcr.io/rockyard/rickjard/karsajobs-ui:latest
+        - name: karsajobs-ui # nama container
+          image: ghcr.io/rockyard/rickjard/karsajobs-ui:latest # package image
           resources:
             limits: 
-              cpu: "512m"
-              memory: "512Mi"
+              cpu: "512m" # kapasitas cpu untuk container
+              memory: "512Mi" # kapasitas memory untuk container
             requests:
-              cpu: "256m"
-              memory: "256Mi"
+              cpu: "256m" # ukuran penggunaan cpu 
+              memory: "256Mi" # ukuran penggunaan memory
           env: 
-            - name: VUE_APP_BACKEND
-              value: http://127.0.0.1:31234
+            - name: VUE_APP_BACKEND # environment variable backend
+              value: http://192.168.49.2:31234 # url port aplikasi backend
           ports:
-            - containerPort: 8000
+            - containerPort: 8000 # port yang digunakan

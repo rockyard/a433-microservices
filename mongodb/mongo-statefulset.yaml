@@ -1,52 +1,52 @@
-apiVersion: apps/v1
-kind: Statefulset
+apiVersion: apps/v1 # Versi API Kubernetes
+kind: StatefulSet # Jenis objek Kubernetes 
 metadata:
-  name: mongodb
-  # labels:
-  #   app: karsajobs
-  #   tier: database
-specs:
+  name: mongodb # Nama statefulSet.
+  labels:
+    app: karsajobs # Label aplikasi
+    tier: database # Tier aplikasi
+spec:
   selector:
     matchLabels:
-      app: mongodb
-      # tier: database
-  serviceName: mongodb
-  replicas: 1
-  minReadySeconds: 10
+      app: karsajobs
+      tier: database
+  serviceName: mongodb # Nama service statefulSet
+  replicas: 1 # Jumlah replika 
+  minReadySeconds: 10 # Waktu minimum Persiapan
   template:
     metadata:
       labels:
-        app: mongodb
-        # tier: database
+        app: karsajobs # Label aplikasi 
+        tier: database # Tier aplikasi 
     spec:
       containers:
-        - name: mongodb
-          image: mongo:latest
+        - name: mongodb # Nama container.
+          image: mongo:latest # Image yang digunakan.
           env:
             - name: MONGO_INITDB_ROOT_USERNAME_FILE
-              value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
+              value: /etc/mongo-credentials/MONGO_ROOT_USERNAME # Environment variable file username
             - name: MONGO_INITDB_ROOT_PASSWORD_FILE
-              value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
+              value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD # Environment variable file passwrd
           volumeMounts:
             - name: mongodb-persistent-storage
-              mountPath: /data/db
+              mountPath: /data/db # volume data MongoDB.
             - name: mongodb-config
-              mountPath: /config
+              mountPath: /config # volume konfigurasi MongoDB.
             - name: mongodb-secret
-              mountPath: /etc/mongo-credentials
+              mountPath: /etc/mongo-credentials # Mount volume file credential.
           ports:
             - name: mongodb
-              containerPort: 27017
+              containerPort: 27017 # Port MongoDB.
       volumes:
         - name: mongodb-persistent-storage
           persistentVolumeClaim:
-            claimName: mongodb-pvc
+            claimName: mongodb-pvc # Nama PVC 
         - name: mongodb-config
           configMap:
-            name: mongodb-configmap
+            name: mongodb-configmap # Nama path konfigurasi 
             items:
               - key: mongo.conf
-                path: mongo.conf
+                path: mongo.conf # Path file konfigurasi MongoDB.
         - name: mongodb-secret
           secret:
-            secretName: mongodb-secret
+            secretName: mongodb-secret # Nama konfigurasi credential.

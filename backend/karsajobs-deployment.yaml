@@ -1,45 +1,45 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1 # versi API kubernetes
+kind: Deployment # jenis objek kubernetes
 metadata:
-  name: karsajobs
+  name: karsajobs # nama object deployment
   labels: 
-    app: karsajobs
-    tier: backend
+    app: karsajobs # Label aplikasi
+    tier: backend # tier aplikasi
 spec: 
-  replicas: 1
+  replicas: 1 # jumlah replica
   selector:
     matchLabels:
-      app: karsajobs
-      tier: backend
+      app: karsajobs # selector pod berdasar label
+      tier: backend # selector pod berdasar tier
   template:
     metadata:
       labels:
-        app: karsajobs
+        app: karsajobs # label template pod 
     spec:
       containers:
-        - name: karsajobs
-          image: ghcr.io/rockyard/rickjard/karsajobs:latest
+        - name: karsajobs # nama container
+          image: ghcr.io/rockyard/rickjard/karsajobs:latest # package image
           ports:
-            - containerPort: 8080
+            - containerPort: 8080 # port container
           resources:
             limits:
-              cpu: 50m
-              memory: 200Mi
+              cpu: 50m # kapasitas cpu yang digunakan container
+              memory: 200Mi # kapasitas memori container
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 50m # ukuran cpu yang dibutuhkan
+              memory: 128Mi # ukuran memory yang dibutuhkan
             env:
-              - name: APP_PORT
-                value: "8080"
-              - name: MONGO_HOST
-                value: "mongodb"
-              - name: MONGO_USER
+              - name: APP_PORT # environment variable aplikasi
+                value: "8080" # port yang digunakan
+              - name: MONGO_HOST # environment variable host MongoDB
+                value: "mongodb" # Host
+              - name: MONGO_USER # environment variable username
                 valueFrom:
                   secretKeyRef:
-                    name: mongodb-secret
-                    key: MONGO_ROOT_USERNAME
-              - name: MONGO_PASS
+                    name: mongodb-secret # nama konfigurasi credential
+                    key: MONGO_ROOT_USERNAME # key username file
+              - name: MONGO_PASS # environment variable password MongoDB
                 valueFrom:
                   secretKeyRef:
-                    name: mongodb-secret
-                    key: MONGO_ROOT_PASSWORD
+                    name: mongodb-secret # nama konfigurasi credential 
+                    key: MONGO_ROOT_PASSWORD # key password file

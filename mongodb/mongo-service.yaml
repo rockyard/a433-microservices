@@ -1,15 +1,15 @@
-apiVersion: v1
-kind: Service
+apiVersion: v1 # versi API kubernetes
+kind: Service # jenis object kubernetes
 metadata:
-  name: mongodb
+  name: mongodb # nama object service
   labels:
-    app: karsajobs
-    tier: database
+    app: karsajobs # label aplikasi
+    tier: database # tier aplikasi
 spec:
   selector:
-    app: karsajobs
-    tier: database
+    app: karsajobs # selector pod label 
+    tier: database # selsctor pod tier
   ports:
-    - port: 27017
-  clusterIP: None 
+    - port: 27017 # port untuk service
+  clusterIP: None # meengatur network cluster
   

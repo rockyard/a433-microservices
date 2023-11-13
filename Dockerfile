@@ -2,24 +2,28 @@
 FROM node:14
 
 # working directory didalam container
-WORKDIR /app
+WORKDIR /src
 
 # menyalin source directory ke workdir
 COPY package*.json ./
 
-# pengaturan konfigurasi SSL
-RUN npm config set strict-ssl false
-
 # install depedencies
-RUN npm ci 
+RUN npm install
 
-# menyalin berkas ke working directory
-COPY ./*.js ./
+# unduh script dari repository
+RUN wget -O ./wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
 
-# port yang digunakan
-EXPOSE 3000
+# akses script ekseskusi 
+RUN chmod +x ./wait-for-it.sh
 
-# menjalankan node saat container berjalan
-CMD [ "node","index.js" ]
+# menyalin file index ke direktori
+COPY index.js ./
 
+# mengatur variable port
+ENV PORT=3000
 
+# Ekspos port
+EXPOSE $PORT
+
+# Perintah yang digunakan untuk mejalankan aplikasi setelah rabbitmq dimulai
+CMD ["sh", "-c", "./wait-for-it.sh rabbitmq:5672 --timeout=30 -- node index.js"]

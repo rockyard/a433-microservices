@@ -1,1 +1,26 @@
-
+apiVersion: apps/v1 # versi API kubernetes 
+kind: Deployment # jenis objek kubernetes 
+metadata:
+  name: order # nama object deployment
+  labels:
+    app: order # label aplikasi
+spec:
+  replicas: 1 # jumlah replika 
+  selector:
+    matchLabels:
+      app: order # selector pod label
+  template:
+    metadata:
+      labels:
+        app: order # label template pod
+    spec:
+      containers:
+      - name: order # nama container
+        image: ghcr.io/rockyard/order-service:latest # packages image
+        ports:
+        - containerPort: 3000 # port aplikasi
+        env:
+        - name: PORT # environtment variable port
+          value: "3000" # port service
+        - name: AMQP_URL # environtment variable url
+          value: "amqp://guest:guest@rabbitmq:5672" #  AMQP_URL 

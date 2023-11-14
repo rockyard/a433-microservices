@@ -1,1 +1,12 @@
-
+apiVersion: v1 # versi API kubernetes 
+kind: Service # jenis objek kubernetes 
+metadata:
+  name: order-service # nama service
+spec:
+  selector:
+    app: order # selector pod label
+  ports:
+    - name: http-order
+      port: 3000 # port service
+      protocol: TCP # jenis protocol
+      targetPort: 3000 # custom port service.
